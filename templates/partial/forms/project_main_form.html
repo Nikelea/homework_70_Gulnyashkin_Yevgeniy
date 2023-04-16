@@ -1,0 +1,57 @@
+
+ <div class="mb-3" style="margin: 20px;">
+    <label for="id_title" class="form-label">Enter task</label>
+    <input 
+    type="text" 
+    name="title" 
+    id="title"
+    aria-describedby="title"
+    value="{{form.title.value|default_if_none:''}}" 
+    class="form-control {% if form.title.errors %}is-invalid {% endif%}" 
+    maxlength="30" 
+    minlength="3" 
+    required="" 
+    id="id_title">
+    {% for error in form.title.errors %}
+    <p class="invalid-feedback" id="title" aria-describedby="title">{{ error }}</p>
+    {% endfor %}
+</div>
+<div class="mb-3" style="margin: 20px;">
+  <label for="description" class="form-label">Enter description</label>
+  {% for error in form.description.errors %}
+  <p class="text-danger">{{ error }}</p>
+  {% endfor %}
+  {{ form.description}}
+</div>
+<div class="mb-3" style="margin: 20px;">
+  <label for="begin_at" class="form-label">Enter start date</label>
+  <input 
+  type="date" 
+  name="begin_at" 
+  id="begin_at"
+  aria-describedby="begin_at"
+  value="{{form.begin_at.value|date:'Y-m-d'}}" 
+  class="form-control {% if form.begin_at.errors %}is-invalid {% endif%}" 
+  maxlength="30" 
+  minlength="3" 
+  required="" >
+  {% for error in form.begin_at.errors %}
+  <p class="invalid-feedback" id="begin_at" aria-describedby="begin_at">{{ error }}</p>
+  {% endfor %}
+</div>
+<div class="mb-3" style="margin: 20px;">
+  <label for="end_at" class="form-label">Enter deadline date</label>
+  <input 
+  type="date" 
+  name="end_at" 
+  id="end_at"
+  aria-describedby="end_at"
+  value="{{form.end_at.value|date:'Y-m-d'}}" 
+  class="form-control {% if form.end_at.errors %}is-invalid {% endif%}" 
+  maxlength="30" 
+  minlength="3" >
+  {% for error in form.end_at.errors %}
+  <p class="invalid-feedback" id="end_at" aria-describedby="end_at">{{ error }}</p>
+  {% endfor %}
+</div>
+  {{ form.users }}

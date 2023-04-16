@@ -1,0 +1,70 @@
+{% if request.user.is_authenticated %}
+{% if projects %}
+    {% for project in projects%}
+    <div class="project-board">
+      <div class="main-detail">
+        <div class="title-detail">
+          <h1>№{{project.pk}} {{project.title}}</h1>
+          {% if perms.todoapp.change_todoproject or request.user.is_superuser %}
+          <a href="{% url 'project_edit' project.pk %}"><img style="margin-left: 100px;" src="/static/pensil.png" width="30" 
+            height="30" alt="Edit"></a>
+          {% endif %}
+        </div>
+        <p>Описание: &ensp;{{project.description|default:'нет описания'|linebreaks |wordwrap:7 |truncatechars:100}}</p>
+        <p>Начало: &ensp;{{project.begin_at}}</p>
+        <p>Конец: &ensp;{{project.end_at}}</p>
+        <p>Участники проекта: &ensp;{% for user in  project.users.all %}
+          {{ user.get_full_name|default_if_none:'не указан' }}&ensp;
+          {%endfor%}
+        </p>
+        {% if  not is_paginated %}
+        <a href="{% url 'projects_list' %}">К списку проектов&ensp;</a>
+        {% endif %}
+        <a href="{% url 'project_detail' project.pk%}" class="card-link">Подробнее</a>
+        {% if user in project.users.all and perms.todoapp.add_todotask or request.user.is_superuser %}
+        <a class="" style="margin-top: 10px; " aria-current="page" href="{% url 'project_task_create' project.pk %}">&ensp;Добавить задачу</a>
+        {% endif %}
+      </div>
+    </div>
+    {%endfor%} 
+{% else %}
+<div class="project-board">
+  <div class="main-detail">
+    <div class="title-detail">
+      <h1>№{{project.pk}} {{project.title}}</h1>
+
+      {% if perms.todoapp.change_todoproject or request.user.is_superuser %}
+      <a href="{% url 'project_edit' project.pk %}"><img style="margin-left: 100px;" src="/static/pensil.png" width="30" 
+        height="30" alt="Edit"></a>
+      {% endif %}
+
+    </div>
+    <p>Описание: &ensp;{{project.description|default:'нет описания'|linebreaks |wordwrap:7 |truncatechars:100 }}</p>
+    <p>Начало: &ensp;{{project.begin_at|date:'m.d.Y'}}</p>
+    <p>Конец: &ensp;{{project.end_at|date:'d.m.Y'}}</p>
+    
+    <p>Участники проекта: &ensp;{% for user in  project.users.all %}
+      {{ user.get_full_name|default_if_none:'не указан' }}&ensp;
+      {%endfor%}
+    </p>
+
+    <a href="{% url 'projects_list' %}">К списку проектов&ensp;</a>
+
+    {% if perms.todoapp.delete_todoproject or request.user.is_superuser %}
+    <a data-toggle="modal" data-target="#exampleModal" href="{% url 'project_delete' project.pk %}">&ensp;Удалить проект</a>
+    {% include 'partial/common/project_modal.html' with object_to_delete=project%} 
+    {% endif %}
+    {% if user in project.users.all and perms.todoapp.add_todotask or request.user.is_superuser %}
+    <a class="" style="margin-top: 10px; " aria-current="page" href="{% url 'project_task_create' project.pk %}">&ensp;Добавить задачу</a>
+    {% endif %}
+    {% if user in project.users.all and perms.todoapp.can_edit_users or request.user.is_superuser %}
+    <a class="" style="margin-top: 10px; " aria-current="page" href="{% url 'project_users_edit' project.pk  %}">&ensp;Изменить список участников</a>
+    {% endif %}
+    
+  </div>
+</div>
+{%endif%}
+{% else %}
+<h1 style="text-align: center; margin-top: 100px;" >Не авторизованым пользователям недоступен просмотр контента.</h1>
+<a style="color: white; text-align: center; font-size: 50px" href="{% url 'login' %} " class="nav-link">Получить доступ</a>
+{% endif %}

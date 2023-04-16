@@ -1,0 +1,28 @@
+{% extends 'partial/common/base.html' %}
+{% block content %}
+
+<div class="login-title">
+  <div style="transform: translate(2%, 5%); width: 40vw;">
+    <h1 style="text-align: center;">Вход</h1>
+    {% if has_error %}
+    <p style="text-align: center;" class="form-error">Неверное имя пользователя или пароль.</p>
+    {% endif %}
+        <form action="{% url 'login' %}" method="post" class="text-center">
+            {% csrf_token %}
+
+            <div class="mb-3">
+                <label for="username" class="form-label">Имя пользователя:</label>
+                <input type="text" class="form-control" id="username" name="username">
+            </div>
+            <div class="mb-3">
+                <label for="password" class="form-label">Пароль:</label>
+                <input type="password" class="form-control" id="password" name="password">
+            </div>
+            <button type="submit">Войти</button> 
+            <span>или</span>
+            <a href="{% url 'register' %}">Зарегистрироваться</a>
+        </form>
+  </div>
+</div>
+
+{%endblock%}

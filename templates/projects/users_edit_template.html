@@ -1,0 +1,23 @@
+{% extends 'partial/common/base.html' %}
+
+{% block content %}
+    <form class="form" style="padding: 20px;" action="" method="POST">
+     {% csrf_token %}
+     <h4>Выберите участников проекта</h4>
+     {{project.title}}
+     {% if messages %}
+         {% for message in messages %}
+                <p class="text-danger">{{ message}}</p>
+         {% endfor %}
+     {% endif %}
+      <div style="margin: 20px; padding: 20px 0; text-transform: capitalize;">
+        {% for error in form.users.errors  %}
+        <p class="text-danger">{{ error}}</p>
+        {% endfor %}
+        {{ form.users }}
+      </div>
+      <button type="submit" class="btn btn-dark" style="margin: 20px;">
+          Save
+      </button>
+    </form>
+{%endblock%}

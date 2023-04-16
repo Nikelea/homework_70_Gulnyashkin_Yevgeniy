@@ -1,0 +1,29 @@
+
+<div class="mb-3">
+    <label for="git_hub" class="form-label">Ссылка на гит</label>
+    {% for error in profile_form.git_hub.errors %}
+    <p class="text-danger">{{ error }}</p>
+    {% endfor %}
+    <input type="text" class="form-control" id="git_hub" value="{{profile_form.git_hub.value|default_if_none:''}}" name="git_hub">
+</div>
+<div class="mb-3">
+    <label for="bio" class="form-label">О себе</label>
+    {% for error in profile_form.bio.errors %}
+    <p class="text-danger">{{ error }}</p>
+    {% endfor %}
+    <textarea name="bio" cols="20" rows="3" class="form-control" maxlength="500" id="bio">{{profile_form.bio.value|default_if_none:''}}</textarea>
+</div>
+<div>
+    <label for="avatar" class="form-label">Аватар</label>
+    <div style="display: flex; justify-content: center; align-items: center;">
+        
+        <br><img style="margin: 20px;" class="avatar" src="{{ profile_form.avatar.value.url }}" width="250" height="250" alt="user picture">
+    
+    <div>
+        {% for error in profile_form.avatar.errors %}
+        <p class="text-danger">{{ error }}</p>
+        {% endfor %}  
+        <input type="file" class="form-control" id="avatar" value="{{profile_form.avatar.value|default_if_none:''}}" name="avatar">
+    </div>
+   </div>
+  </div>

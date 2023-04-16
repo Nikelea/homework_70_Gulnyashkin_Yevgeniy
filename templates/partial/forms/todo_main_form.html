@@ -1,0 +1,58 @@
+ <div class="mb-3" style="margin: 20px;">
+    <label for="id_title" class="form-label">Enter task</label>
+    <input 
+    type="text" 
+    name="title" 
+    id="title"
+    aria-describedby="title"
+    value="{{form.title.value|default_if_none:''}}" 
+    class="form-control {% if form.title.errors %}is-invalid {% endif%}" 
+    maxlength="30" 
+    minlength="3" 
+    required="" 
+    id="id_title">
+    {% for error in form.title.errors %}
+    <p class="invalid-feedback" id="title" aria-describedby="title">{{ error }}</p>
+    {% endfor %}
+</div>
+<div class="mb-3" style="margin: 20px;">
+  <label for="description" class="form-label">Enter description</label>
+  {% for error in form.description.errors %}
+  <p class="text-danger">{{ error }}</p>
+  {% endfor %}
+  {{ form.description}}
+</div>
+<div style="margin: 20px; text-transform: capitalize;">
+{% for error in form.types.errors  %}
+<p class="text-danger">{{ error}}</p>
+{% endfor %}
+{{ form.types }}
+</div>
+<div style="margin: 20px;">
+  {% for error in form.status.errors  %}
+  <p class="text-danger">{{ error}}</p>
+  {% endfor %}
+  {{ form.status }}
+</div>
+{% if project %}
+<div style="margin: 20px; text-transform: capitalize;">
+  {% for error in form.project.errors  %}
+  <p class="text-danger">{{ error}}</p>
+  {% endfor %}
+  <input 
+    name="project" 
+    id="project"
+    type="hidden"
+    aria-describedby="project"
+    value="{{project}}" 
+    class="form-control {% if form.title.errors %}is-invalid {% endif%}" 
+    >
+  </div>
+  {%else%}
+<div style="margin: 20px; text-transform: capitalize;">
+  {% for error in form.project.errors  %}
+  <p class="text-danger">{{ error}}</p>
+  {% endfor %}
+  {{ form.project }}
+  </div>
+  {%endif%}

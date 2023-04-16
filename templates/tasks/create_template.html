@@ -1,0 +1,12 @@
+{% extends 'partial/common/base.html' %}
+
+{% block content %}
+
+    <form class="form" action="" method="POST">
+      {% csrf_token %}
+      {% include 'partial/forms/todo_main_form.html'%}
+      <button type="submit" class="btn btn-dark" style="margin: 20px;">
+          Save
+      </button>
+    </form>
+{%endblock%}

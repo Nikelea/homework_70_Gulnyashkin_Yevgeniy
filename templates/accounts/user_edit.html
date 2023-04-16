@@ -1,0 +1,13 @@
+{% extends 'partial/common/base.html' %}
+
+{% block title %}Изменить данные{% endblock %}
+
+{% block content %}
+    <h1 style="text-align: center;">Изменить данные</h1>
+    <form action="{% url 'profile_update'  %}" method="post" class="text-center" enctype="multipart/form-data">
+        {% csrf_token %}
+        {% include 'accounts/forms/user_form.html' %}
+        {% include 'accounts/forms/profile_form.html' with form=profile_form fields_only=True %}
+        <input style="margin: 20px; font-size: 22px" type="submit" class="btn btn-light" value="Сохранить">
+    </form>
+{% endblock %}

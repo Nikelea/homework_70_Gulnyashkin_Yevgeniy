@@ -1,0 +1,11 @@
+{% extends 'partial/common/base.html' %}
+
+{% block content %}
+{% include 'partial/projects/project-list.html' %} 
+<div class="task-list">
+  {% for task in tasks%}
+  {% include 'partial/tasks/task-list-for-tasks.html' %} 
+{%endfor%} 
+</div>    
+
+{%endblock%}

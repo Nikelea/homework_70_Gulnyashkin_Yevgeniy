@@ -1,0 +1,36 @@
+{% extends 'partial/common/base.html' %}
+
+{% block content %}
+{% if request.user.is_authenticated %}
+    <div class="stiker-detail">
+      <div class="main-detail">
+        <div class="title-detail">
+          <h1>№{{task.pk}} {{task.title}}</h1>
+          {% if user in project.users.all and perms.todoapp.change_todotask or request.user.is_superuser %}
+          <a href="{% url 'task_edit' task.pk %}"><img style="margin-left: 100px;" src="/static/pensil.png" width="30" 
+            height="30" alt="Edit"></a>
+          {% endif %}
+        </div>
+
+        <p>Описание: &ensp;{{task.description|default:'нет описания'|linebreaks |wordwrap:7 |truncatechars:100}}</p>
+        <p>Статус: &ensp;<a class="cat-link" href="{% url 'task_filter_list' task.status|lower %}">{{ task.status }}</a></p>
+        <p>Тип: &ensp; 
+          {% for type in  task.types.all %}
+          <a class="cat-link" href="{% url 'task_filter_list' type|lower %}">{{ type }}</a>
+          {%endfor%}
+        </p>  
+        <p>Проект: &ensp;<a class="cat-link" href="{% url 'project_detail' task.project.pk%}" class="card-link">{{task.project.title}}</a></p>
+        <p>Добавлена: &ensp;{{task.created_at}}</p>
+        <p>Редактирована: &ensp;{{task.updated_at}}</p>
+        <a href="{% url 'tasks_list' %}">Вернутся к списку задач&ensp;</a>
+        {% if user in project.users.all and perms.todoapp.delete_todotask or request.user.is_superuser %}
+        <a data-toggle="modal" data-target="#exampleModal" href="{% url 'task_delete' task.pk %}">&ensp;Удалить задачу</a>
+        {% include 'partial/common/modal.html' with object_to_delete=task%} 
+        {% endif %}
+      </div>
+    </div>
+    {% else %}
+    <h1 style="text-align: center; margin-top: 100px;" >Не авторизованым пользователям недоступен просмотр контента.</h1>
+    <a style="color: white; text-align: center; font-size: 50px" href="{% url 'login' %} " class="nav-link">Получить доступ</a>
+    {% endif %}
+{%endblock%}

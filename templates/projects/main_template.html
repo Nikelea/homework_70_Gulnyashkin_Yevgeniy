@@ -1,0 +1,9 @@
+{% extends 'partial/common/base.html' %}
+
+{% block content %}
+{% include 'partial/projects/project-list.html' %} 
+{% if is_paginated %}
+   {% include 'partial/common/paginator.html' %}
+{% endif %}
+
+{%endblock%}

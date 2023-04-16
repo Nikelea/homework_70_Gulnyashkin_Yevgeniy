@@ -1,0 +1,25 @@
+{% extends 'partial/common/base.html' %}
+
+
+{% block content %}
+{% for user_obj in user_objs %}
+
+<div style="display: flex; margin: 20px">
+    {% if user_obj.profile.avatar %}
+    <img style="margin-right: 40px;" class="avatar" src="{{ user_obj.profile.avatar.url }}" width="250" height="250" alt="user picture">
+    {% endif %}
+    <div>
+        <p style="text-transform: capitalize;" >пользователь: {{ user_obj.username }}</p>
+        <p>Имя: {{ user_obj.first_name }}</p>
+        <p>Фамилия: {{ user_obj.last_name }}</p>
+        <p>Ccылка на профиль: <a style="color: white;" href="{% url 'profile_detail' user_obj.pk %}" class="nav-link active">{{ user_obj.get_full_name|default:user_obj.username}}</a></p>
+    </div>
+
+</div>
+
+
+{% if is_paginated %}
+{% include 'partial/common/paginator.html' %}
+{% endif %}
+{% endfor %}
+{% endblock %}

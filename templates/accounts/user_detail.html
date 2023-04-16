@@ -1,0 +1,31 @@
+{% extends 'partial/common/base.html' %}
+
+
+{% block content %}
+<h1 style="text-align: center;">Личная страница пользователя {{ user_obj.get_full_name|default:user_obj.username }}</h1>
+<div class="detail-profile" style="display: flex; justify-content: center;">
+    {% if user_obj.profile.avatar %}
+        <img style="margin: 20px;" class="avatar" src="{{ user_obj.profile.avatar.url }}" width="250" height="250" alt="user picture">
+    {% endif %}
+    <div style="margin: 20px;">
+    <p>Имя пользователя: {{ user_obj.username }}</p>
+    <p>Имя: {{ user_obj.first_name }}</p>
+    <p>Фамилия: {{ user_obj.last_name }}</p>
+    <p>Ссылка: {{ user_obj.profile.git_hub }}</p>
+    <p>О себе: {{ user_obj.profile.bio|default:'нет информации'|linebreaks |wordwrap:7 |truncatechars:100}}</p>
+    {% if user_obj.pk == request.user.pk  or request.user.is_superuser %}
+    <a href="{% url 'profile_update' %}">Редактировать</a>
+    <a href="{% url 'change_password' %}">Смена пароля</a>
+    {% endif %}
+    </div>
+</div>
+    <h2 class="text-center clear">Проекты:</h2>
+    {% if projects %}
+    {% include 'partial/projects/project-list.html' %}
+    {% else %}
+    <h1 style="text-align: center; margin-top: 100px;" >Пользователь не участвует в проектах</h1>
+    {% endif %}
+    {% if is_paginated %}
+    {% include 'partial/common/paginator.html' %}
+    {% endif %}
+{% endblock %}

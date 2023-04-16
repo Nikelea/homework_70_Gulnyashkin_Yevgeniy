@@ -1,0 +1,43 @@
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+    <div class="container-fluid">
+      <a class="navbar-brand" href="{% url 'index_list'%}">To-Do app</a>
+      <div style="display: flex;">
+        <ul class="navbar-nav">
+          {% if request.user.is_authenticated %}
+          <li class="nav-item">
+            <a class="nav-link active" aria-current="page" href="{% url 'projects_list'%}">projects</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link active" aria-current="page" href="{% url 'tasks_list'%}">tasks</a>
+          </li>
+          {% if perms.todoapp.add_todoproject or request.user.is_superuser %}
+          <li class="nav-item">
+            <a class="nav-link active" aria-current="page" href="{% url 'project_create'%}">add project</a>
+          </li>
+          {% endif %}
+          {% if request.user.is_superuser %}
+          <li class="nav-item">
+            <a class="nav-link active" aria-current="page" href="{% url 'task_create'%}">add task</a>
+          </li>
+          {% endif %}
+          {% if perms.auth.view_user or request.user.is_superuser %}
+          <li class="nav-item">
+            <a class="nav-link active" aria-current="page" href="{% url 'profile_list'%}">Users</a>
+          </li>
+          {% endif %}
+        </ul>
+        <form action="{% url 'search_task' %}" method="get" class="form-inline pull-xs-right" style="display: flex;">
+          {% csrf_token %}
+          <input class="form-control" type="text" name= "search" value="{{ form.search.value|default:'' }}" placeholder="Search task and project">
+          <button class="btn btn-light" type="submit">Search</button>
+        </form>
+        {% endif %}
+        {% if request.user.is_authenticated %}
+          <a style="color: white;" href="{% url 'profile_detail' user.pk %}" class="nav-link active">{{ user.username }}</a>
+          <a style="color: white;" href="{% url 'logout' %}" class="nav-link active">Выход</a>
+        {% else %}
+          <a style="color: white;" href="{% url 'login' %}" class="nav-link">Вход</a>
+        {% endif %} 
+      </div>
+    </div>
+</nav>

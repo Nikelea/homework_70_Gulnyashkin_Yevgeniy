@@ -1,0 +1,18 @@
+
+    <div class="card">
+      <div class="card-body">
+        <h5 class="card-title">№{{task.pk}} {{task.title}}</h5>
+        <h6 class="card-subtitle mb-2 text-muted">Статус:&ensp;<a class="cat-link" href="{% url 'task_filter_list' task.status|lower %}">{{ task.status|default_if_none:'не указан' }}</a></h6>
+        <p class="card-text">Тип:&ensp;
+          {%if task.types.all%}
+          {% for type in  task.types.all %}
+          <a class="cat-link" href="{% url 'task_filter_list' type|lower %}">{{ type|default_if_none:'не указан' }}</a>
+          {%endfor%}
+          {% else %}
+          не указан
+          {%endif%}
+          </p>
+        <a href="{% url 'task_detail' task.pk%}" class="card-link">Подробнее</a>
+      </div>
+    </div>
+
